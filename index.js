@@ -28,6 +28,16 @@ DotenvPlugin.prototype.apply = function(compiler) {
 
     return definitions;
   }, {});
+  
+  ["invalid", "watch-run", "run"].forEach(function(name) {
+		compiler.plugin(name, function(_, callback) {
+			isBlocked = true;
+
+			if (typeof callback === 'function') {
+				callback();
+			}
+		})
+	});
 
   compiler.apply(new DefinePlugin(plugin));
 };
